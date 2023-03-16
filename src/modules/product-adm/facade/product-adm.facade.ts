@@ -20,6 +20,6 @@ export class ProductAdmFacade implements ProductAdmFacadeInterface {
   }
   
   async checkStock(input: CheckStockFacadeInputDto): Promise<CheckStockFacadeOutputDto> {
-    throw new Error("Method not implemented.");
+    return this._checkStockUsecase.execute(input)
   }
 }

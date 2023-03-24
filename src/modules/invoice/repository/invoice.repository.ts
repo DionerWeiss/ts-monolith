@@ -13,10 +13,8 @@ export class InvoiceRepository implements InvoiceGateway {
 
     try {
       invoice = await InvoiceModel.findOne({ 
-        where: { 
-          id 
-        },
-        include: "items",
+        where: { id: id },
+        include: ["items"],
         rejectOnEmpty: true
       });
     } catch (error) {

@@ -1,5 +1,4 @@
-import { BelongsToMany, Column, Model, PrimaryKey, Table } from "sequelize-typescript";
-import { InvoiceProductModel } from "./invoice-product.model";
+import { Column, HasMany, Model, PrimaryKey, Table } from "sequelize-typescript";
 import { ProductModel } from "./product.model";
 
 @Table({
@@ -35,10 +34,8 @@ export class InvoiceModel extends Model {
   @Column({ allowNull: false })
   state: string;
 
-  @BelongsToMany(() => ProductModel, {
-    through: { model: () => InvoiceProductModel },
-  })
-  items: ProductModel[]
+  @HasMany(() => ProductModel, { foreignKey: "invoice_id" })
+  items: ProductModel[];
 
   @Column({ allowNull: false })
   createdAt: Date 

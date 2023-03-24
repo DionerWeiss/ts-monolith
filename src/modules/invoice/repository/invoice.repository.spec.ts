@@ -3,7 +3,6 @@ import { Id } from "../../@shared/domain/value-object/id.value-object";
 import { Invoice } from "../domain/entity/invoice.entity";
 import { Product } from "../domain/entity/product.entity";
 import { Address } from "../domain/value-object/address.value-object";
-import { InvoiceProductModel } from "./invoice-product.model";
 import { InvoiceModel } from "./invoice.model";
 import { InvoiceRepository } from "./invoice.repository";
 import { ProductModel } from "./product.model";
@@ -19,7 +18,7 @@ describe('InvoiceRepository', () => {
       sync: {force: true}
     })
 
-    await sequelize.addModels([InvoiceModel,ProductModel,InvoiceProductModel ])
+    await sequelize.addModels([InvoiceModel,ProductModel ])
     await sequelize.sync()
   })
 
@@ -28,13 +27,6 @@ describe('InvoiceRepository', () => {
   })
 
   it('should find a invoice', async () => {
-    const product1 = await ProductModel.create({
-      id: "1",
-      name: 'Product 1',
-      price: 100,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    })
 
     const invoice = await InvoiceModel.create({
       id: "333",
@@ -46,15 +38,22 @@ describe('InvoiceRepository', () => {
       city: "city",
       complement: "complement",
       state: "state",
-      items: [product1],
+      items: [
+        {
+          id: "1",
+          name: "Product 1",
+          price: 100,
+        },
+        {
+          id: "2",
+          name: "Product 2",
+          price: 200,
+        },
+      ],
       createdAt: new Date(),
       updatedAt: new Date()
-    })
+    }, {include: [ProductModel]})
 
-    await InvoiceProductModel.create({
-      invoiceId: invoice.id,
-      productId: product1.id
-    })
 
     const repository = new InvoiceRepository()
 
@@ -70,9 +69,9 @@ describe('InvoiceRepository', () => {
     expect(result.address.street).toEqual(invoice.street)
     expect(result.address.zipCode).toEqual(invoice.zipcode)
 
-    expect(result.items[0].id.id).toEqual(product1.id)
-    expect(result.items[0].name).toEqual(product1.name)
-    expect(result.items[0].price).toEqual(product1.price)
+    expect(result.items[0].id.id).toEqual(invoice.items[0].id)
+    expect(result.items[0].name).toEqual(invoice.items[0].name)
+    expect(result.items[0].price).toEqual(invoice.items[0].price)
   });
 
   it('should generate a invoice', async () => {

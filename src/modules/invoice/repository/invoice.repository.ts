@@ -4,6 +4,7 @@ import { Product } from "../domain/entity/product.entity";
 import { Address } from "../domain/value-object/address.value-object";
 import { InvoiceGateway } from "../gateway/invoice.gateway";
 import { InvoiceModel } from "./invoice.model";
+import { ProductModel } from "./product.model";
 
 export class InvoiceRepository implements InvoiceGateway {
   
@@ -44,8 +45,30 @@ export class InvoiceRepository implements InvoiceGateway {
     })
   }
 
-  generate(input: Invoice): Promise<void> {
-    throw new Error("Method not implemented.");
+  async generate(input: Invoice): Promise<void> {
+    await InvoiceModel.create(
+      {
+        id: input.id.id,
+        name: input.name,
+        document: input.document,
+        street: input.address.street,
+        number: input.address.number,
+        complement: input.address.complement,
+        zipcode: input.address.zipCode,
+        state: input.address.state,
+        city: input.address.city,
+        items: input.items.map((item) => ({
+          id: item.id.id,          
+          name: item.name,
+          price: item.price,
+        })),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        include: [{ model: ProductModel }]
+      }
+      );
   }
   
 }

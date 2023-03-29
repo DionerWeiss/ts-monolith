@@ -20,7 +20,7 @@ const invoice = new Invoice({
   address: new Address({
     city: "city 1",
     complement: "complement",
-    number: 100,
+    number: '100',
     state: "SP",
     street: "street 1",
     zipCode: "90000",

@@ -8,7 +8,7 @@ export interface FindInvoiceFacadeOutputDTO {
   document: string;
   address: {
     street: string;
-    number: number;
+    number: string;
     complement: string;
     city: string;
     state: string;
@@ -27,7 +27,7 @@ export interface GenerateInvoiceFacadeInputDTO {
   name: string;
   document: string;
   street: string;
-  number: number;
+  number: string;
   complement: string;
   city: string;
   state: string;
@@ -44,7 +44,7 @@ export interface GenerateInvoiceFacadeOutputDTO {
   name: string;
   document: string;
   street: string;
-  number: number;
+  number: string;
   complement: string;
   city: string;
   state: string;

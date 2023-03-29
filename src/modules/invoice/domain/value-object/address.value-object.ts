@@ -2,7 +2,7 @@ import { ValueObject } from "../../../@shared/domain/value-object/value-object.i
 
 type AddressProps = {
   street: string 
-  number: number 
+  number: string 
   zipCode: string 
   city: string 
   complement: string;
@@ -11,7 +11,7 @@ type AddressProps = {
 
 export class Address implements ValueObject {
   private _street: string = "";
-  private _number: number = 0;
+  private _number: string = '0';
   private _zipCode: string = "";
   private _city: string = "";
   private _complement?: string = ""
@@ -32,7 +32,7 @@ export class Address implements ValueObject {
     return this._street;
   }
 
-  get number(): number {
+  get number(): string {
     return this._number;
   }
 
@@ -54,9 +54,6 @@ export class Address implements ValueObject {
   validate() {
     if (this._street.length === 0) {
       throw new Error("Street is required");
-    }
-    if (this._number === 0) {
-      throw new Error("Number is required");
     }
     if (this._zipCode.length === 0) {
       throw new Error("zipCode is required");

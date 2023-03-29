@@ -20,7 +20,7 @@ export class InvoiceModel extends Model {
   street: string;
 
   @Column({ allowNull: false })
-  number: number;
+  number: string;
 
   @Column({ allowNull: false })
   zipcode: string;

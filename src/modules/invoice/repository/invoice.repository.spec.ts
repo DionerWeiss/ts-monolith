@@ -33,7 +33,7 @@ describe('InvoiceRepository', () => {
       name: "invoice name",
       document: "invoice document",
       street: "street",
-      number: 100,
+      number: '100',
       zipcode: "00001",
       city: "city",
       complement: "complement",
@@ -85,7 +85,7 @@ describe('InvoiceRepository', () => {
       id: new Id("1"),
       address: new Address({
         street: "street",
-        number: 100,
+        number: '100',
         zipCode: "00001",
         city: "city",
         complement: "complement",
@@ -107,7 +107,7 @@ describe('InvoiceRepository', () => {
     expect(invoiceDb.name).toBe("invoice name");
     expect(invoiceDb.document).toBe("document");
     expect(invoiceDb.address.street).toBe("street");
-    expect(invoiceDb.address.number).toBe(100);
+    expect(invoiceDb.address.number).toBe('100');
     expect(invoiceDb.address.complement).toBe("complement");
     expect(invoiceDb.address.zipCode).toBe("00001");
     expect(invoiceDb.address.state).toBe("state");

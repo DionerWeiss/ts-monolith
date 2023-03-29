@@ -31,33 +31,33 @@ export class PlaceOrderUseCase implements UseCaseInterface {
     
     const products = await Promise.all(
       input.products.map((p) => this.getProduct(p.productId))
-  );
+    );
         
-  const myClient = new Client({
-    id: new Id(client.id),
-    name: client.name,
-    email: client.email,
-    document: client.document,
-    street: client.street,
-    complement: client.complement,
-    number: client.number,
-    city: client.city,
-    state: client.state,
-    zipCode: client.zipCode,
-  });
+    const myClient = new Client({
+      id: new Id(client.id),
+      name: client.name,
+      email: client.email,
+      document: client.document,
+      street: client.street,
+      complement: client.complement,
+      number: client.number,
+      city: client.city,
+      state: client.state,
+      zipCode: client.zipCode,
+    });
 
-const order = new Order({
-    client: myClient,
-    products,
-});
+    const order = new Order({
+        client: myClient,
+        products,
+    });
 
-const payment = await this._paymentFacade.process({
-    orderId: order.id.id,
-    amount: order.total(),
-});
+    const payment = await this._paymentFacade.process({
+        orderId: order.id.id,
+        amount: order.total(),
+    });
 
-const invoice = 
-    payment.status === "approved" 
+    const invoice = 
+      payment.status === "approved" 
         ? await this._invoiceFacade.generate({                    
             name: client.name,
             document: client.document,
@@ -76,20 +76,20 @@ const invoice =
             }),                    
         }) : null;
 
-payment.status === "approved" && order.approved();
-this._repository.addOrder(order);
+    payment.status === "approved" && order.approved();
+    await this._repository.addOrder(order);
 
-return {
-    id: order.id.id,
-    invoiceId: payment.status === "approved" ? invoice.id : null,
-    status: order.status,
-    total: order.total(),
-    products: order.products.map((p) =>{
-        return {
-            productId: p.id.id,
-        }
-    }),
-}        
+    return {
+      id: order.id.id,
+      invoiceId: payment.status === "approved" ? invoice.id : null,
+      status: order.status,
+      total: order.total(),
+      products: order.products.map((p) =>{
+          return {
+              productId: p.id.id,
+          }
+      }),
+    }        
   }
 
   private async validateProducts(input: PlaceOrderInputDto): Promise<void> {

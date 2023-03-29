@@ -2,7 +2,7 @@ import { BelongsTo, Column, Model, PrimaryKey, Table } from "sequelize-typescrip
 import { InvoiceModel } from "./invoice.model";
 
 @Table({
-  tableName: 'products',
+  tableName: 'product',
   timestamps: false
 })
 export class ProductModel extends Model {
